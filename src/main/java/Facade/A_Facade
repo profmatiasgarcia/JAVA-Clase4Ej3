@@ -1,0 +1,215 @@
+
+Patrón de diseño Facade
+
+El patrón Facade (Fachada) es un patrón de diseño estructural que proporciona una interfaz simple y unificada para acceder a un sistema compuesto por varias clases o subsistemas.
+
+La idea es ocultar la complejidad interna y ofrecer al cliente una única clase que coordine las operaciones necesarias.
+
+Un ejemplo cotidiano sería el botón de "Comprar" de una tienda online. Para realizar una compra, internamente pueden ser necesarias varias operaciones:
+
+                    Cliente
+                       |
+                       v
+                  Comprar()
+                       |
+                     FACADE
+                       |
+       --------------------------------
+       |              |               |
+   Verificar      Procesar       Actualizar
+    Stock           Pago          Inventario
+
+El cliente no necesita conocer todos esos pasos. Simplemente llama a:
+
+tienda.comprar(...);
+
+La Fachada se encarga de coordinar el resto.
+
+¿Qué sucedería sin Facade?
+
+El cliente tendría que conocer todos los subsistemas y controlar el orden de las operaciones:
+
+Inventario inventario =
+        new Inventario();
+
+
+Pago pago =
+        new Pago();
+
+
+Envio envio =
+        new Envio();
+
+
+boolean stock =
+        inventario.verificarStock(
+                "Notebook",
+                1
+        );
+
+
+if (stock) {
+
+
+    boolean aprobado =
+            pago.procesarPago(850000);
+
+
+    if (aprobado) {
+
+
+        inventario.actualizarStock(
+                "Notebook",
+                1
+        );
+
+
+        envio.generarEnvio(
+                "Notebook",
+                "Av. Corrientes 1234"
+        );
+    }
+}
+
+El cliente tiene que conocer:
+
+Qué clases utilizar.
+En qué orden utilizarlas.
+Qué métodos llamar.
+Qué hacer si alguna operación falla.
+
+Esto aumenta el acoplamiento y hace que el código cliente sea más complejo.
+
+Con Facade
+
+El mismo proceso se reduce a:
+
+TiendaFacade tienda =
+        new TiendaFacade();
+
+
+tienda.comprar(
+        "Notebook",
+        1,
+        850000,
+        "Av. Corrientes 1234"
+);
+
+La complejidad queda encapsulada dentro de:
+
+                 CLIENTE
+                    |
+                    v
+              TiendaFacade
+                 FACADE
+                    |
+       ---------------------------
+       |            |            |
+       v            v            v
+  Inventario      Pago         Envio
+¿Cómo funciona Facade?
+
+El patrón puede resumirse en cuatro pasos:
+
+1. Tenemos varios subsistemas
+Inventario
+Pago
+Envio
+
+Cada uno tiene su propia responsabilidad.
+
+2. Creamos una Fachada
+TiendaFacade
+
+La Fachada conoce los diferentes subsistemas.
+
+3. La Fachada coordina las operaciones
+
+Por ejemplo:
+
+comprar()
+   |
+   +--> verificarStock()
+   |
+   +--> procesarPago()
+   |
+   +--> actualizarStock()
+   |
+   +--> generarEnvio()
+4. El cliente utiliza una interfaz simplificada
+tienda.comprar(...);
+
+El cliente no necesita conocer los detalles internos.
+
+Estructura del patrón
+                       CLIENTE
+                          |
+                          v
+                       FACADE
+                          |
+             -------------------------
+             |           |           |
+             v           v           v
+         Subsistema   Subsistema   Subsistema
+             A           B           C
+
+La Fachada no necesariamente reemplaza a los subsistemas. Estos siguen existiendo y pueden utilizarse directamente cuando sea necesario.
+
+La finalidad de Facade es proporcionar un punto de acceso simplificado.
+
+¿Cuándo utilizar Facade?
+
+Es recomendable utilizarlo cuando:
+
+Tenemos un sistema compuesto por muchas clases.
+El cliente necesita realizar operaciones que involucran varios subsistemas.
+Queremos ocultar la complejidad interna.
+Queremos reducir el acoplamiento entre el cliente y los subsistemas.
+Queremos proporcionar una API sencilla para utilizar un sistema complejo.
+
+Algunos ejemplos:
+
+Sistemas de compras.
+Sistemas bancarios.
+Sistemas de reservas.
+Procesamiento de pagos.
+Bibliotecas complejas.
+Sistemas multimedia.
+APIs y servicios externos.
+Ventajas
+Simplifica el uso del sistema
+
+El cliente tiene que conocer menos clases y métodos.
+
+Reduce el acoplamiento
+
+El cliente depende de la Fachada en lugar de depender directamente de todos los subsistemas.
+
+Centraliza procesos
+
+La Fachada puede controlar el orden en el que deben ejecutarse las operaciones.
+
+Facilita el mantenimiento
+
+Si cambia la forma en que se utilizan los subsistemas, muchas veces solo necesitamos modificar la Fachada.
+
+Importante: Facade no elimina los subsistemas
+
+La Fachada es una capa de simplificación, no una sustitución de las clases internas.
+
+Por ejemplo:
+
+                       Cliente
+                          |
+                          v
+                   TiendaFacade
+                          |
+             -------------------------
+             |           |           |
+        Inventario      Pago       Envio
+
+El cliente normalmente utiliza:
+
+tienda.comprar(...);
+
+pero los subsistemas siguen existiendo independientemente.

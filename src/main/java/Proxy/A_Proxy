@@ -1,0 +1,92 @@
+Patrón de diseño Proxy
+
+El patrón Proxy es un patrón de diseño estructural que proporciona un objeto intermediario que controla el acceso a otro objeto.
+
+El Proxy implementa la misma interfaz que el objeto real, por lo que el cliente puede trabajar con el Proxy como si estuviera trabajando directamente con el objeto original.
+
+Puede utilizarse para:
+
+Controlar el acceso a un recurso.
+Verificar permisos.
+Registrar operaciones.
+Implementar carga diferida (lazy loading).
+Agregar caché.
+Controlar acceso a servicios remotos.
+Agregar autenticación.
+
+Una analogía sencilla es un recepcionista:
+
+Cliente
+   |
+   v
+Recepcionista (Proxy)
+   |
+   | verifica autorización
+   |
+   v
+Servicio Real
+
+El cliente no accede directamente al servicio. Primero pasa por el Proxy.
+
+Ventajas del Proxy
+Control de acceso
+
+Permite verificar permisos antes de acceder al objeto real.
+
+Lazy Loading
+
+Permite retrasar la creación de objetos costosos.
+
+Seguridad
+
+Puede agregar autenticación y autorización.
+
+Logging
+
+Puede registrar las operaciones realizadas.
+
+Caché
+
+Puede evitar operaciones innecesarias almacenando resultados.
+
+Transparencia
+
+El cliente puede trabajar con el Proxy utilizando la misma interfaz que utilizaría con el objeto real.
+
+¿Cuándo utilizar Proxy?
+
+Es recomendable utilizar este patrón cuando necesitamos:
+
+Controlar el acceso a un objeto.
+Agregar autenticación o autorización.
+Retrasar la creación de objetos pesados.
+Acceder a recursos remotos.
+Implementar caché.
+Registrar operaciones.
+Controlar el acceso a recursos sensibles.
+Estructura general
+
+La idea fundamental del patrón puede resumirse así:
+
+                    <<Subject>>
+                         |
+              -----------------------
+              |                     |
+              v                     v
+         RealSubject              Proxy
+                                    |
+                                    |
+                                    v
+                              RealSubject
+
+El cliente trabaja con:
+
+Subject
+
+sin preocuparse por si está utilizando directamente:
+
+RealSubject
+
+o:
+
+Proxy

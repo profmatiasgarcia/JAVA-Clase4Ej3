@@ -1,0 +1,171 @@
+
+Patrón de diseño Decorator
+
+El patrón Decorator (Decorador) es un patrón de diseño estructural que permite agregar responsabilidades o funcionalidades a un objeto de manera dinámica, sin modificar su clase original.
+
+La idea principal es envolver un objeto dentro de otro objeto que agrega nuevas funcionalidades.
+
+Un ejemplo sencillo es un sistema de notificaciones. Tenemos una notificación básica y queremos agregarle diferentes funcionalidades:
+
+Enviar por Email.
+Enviar por SMS.
+Registrar un log.
+Enviar una copia.
+Comprimir el mensaje.
+
+En lugar de crear una clase para cada combinación:
+
+NotificacionEmail
+NotificacionEmailConLog
+NotificacionEmailConLogYSMS
+NotificacionSMSConLog
+...
+
+podemos utilizar Decorator y combinar funcionalidades dinámicamente.
+
+¿Cómo funciona Decorator?
+
+El patrón se basa en una estructura similar a esta:
+
+                 <<Componente>>
+                 Notificacion
+                      ^
+                      |
+          -------------------------
+          |                       |
+   NotificacionSimple       <<Decorator>>
+                              Decorador
+                                  |
+                     -------------------------
+                     |                       |
+                DecoradorLog            DecoradorSMS
+
+El decorador implementa la misma interfaz que el objeto que está decorando.
+
+Además, mantiene una referencia al objeto original.
+
+        Decorador
+            |
+            | contiene
+            v
+      Notificacion
+
+De esta manera, podemos envolver un objeto con uno o varios decoradores.
+
+¿Por qué no utilizar herencia?
+
+Sin Decorator podríamos intentar crear:
+
+Notificacion
+    |
+    +-- NotificacionEmail
+    +-- NotificacionSMS
+    +-- NotificacionLog
+
+Pero cuando aparecen combinaciones empiezan los problemas:
+
+NotificacionEmail
+NotificacionSMS
+NotificacionEmailConLog
+NotificacionSMSConLog
+NotificacionEmailConSMS
+NotificacionEmailConSMSConLog
+...
+
+La cantidad de clases puede crecer rápidamente.
+
+Con Decorator podemos combinar las funcionalidades:
+
+Notificacion notificacion =
+        new NotificacionConEmail(
+            new NotificacionConSMS(
+                new NotificacionConLog(
+                    new NotificacionSimple()
+                )
+            )
+        );
+
+Esto permite crear una configuración diferente sin crear una clase nueva para cada combinación.
+
+Diagrama UML simplificado
+                    <<interface>>
+                    Notificacion
+                         ^
+                         |
+             -------------------------
+             |                       |
+             |                       |
+    NotificacionSimple     NotificacionDecorator
+                                    ^
+                                    |
+                         -------------------------
+                         |           |           |
+                       Log          SMS        Email
+
+El Decorator mantiene además una referencia al componente:
+
+NotificacionDecorator
+        |
+        | contiene
+        v
+   Notificacion
+
+Esta combinación de composición + polimorfismo es la esencia del patrón.
+
+¿Cuándo utilizar Decorator?
+
+Es recomendable cuando:
+
+Queremos agregar funcionalidades a un objeto de manera dinámica.
+No queremos modificar la clase original.
+La herencia produciría demasiadas subclases.
+Necesitamos combinar diferentes funcionalidades.
+El orden de aplicación de las funcionalidades puede ser importante.
+
+Algunos ejemplos reales:
+
+Sistemas de notificaciones.
+Streams de Java.
+Sistemas de autenticación.
+Procesamiento de archivos.
+Sistemas de logging.
+Interfaces gráficas.
+Sistemas de descuentos.
+Procesamiento de pedidos.
+
+Un ejemplo muy conocido dentro de la propia API de Java es el uso de streams y wrappers de entrada/salida, donde un objeto puede envolver a otro para agregarle funcionalidades.
+
+Ventajas
+Flexibilidad
+
+Las funcionalidades pueden combinarse dinámicamente.
+
+Evita una explosión de subclases
+
+No necesitamos crear una clase para cada combinación posible.
+
+Respeta el principio Open/Closed
+
+Podemos agregar nuevos comportamientos mediante nuevos decoradores sin modificar el componente original.
+
+Responsabilidades separadas
+
+Cada decorador se ocupa de una funcionalidad específica.
+
+Desventajas
+
+La principal desventaja es que podemos terminar teniendo muchos objetos pequeños y varias capas de envoltorios, lo que puede dificultar el seguimiento del flujo de ejecución cuando existen muchos decoradores.
+
+Por ejemplo:
+
+Decorator A
+    ↓
+Decorator B
+    ↓
+Decorator C
+    ↓
+Decorator D
+    ↓
+Objeto original
+
+Por eso conviene utilizarlo cuando realmente necesitamos combinar responsabilidades de manera flexible.

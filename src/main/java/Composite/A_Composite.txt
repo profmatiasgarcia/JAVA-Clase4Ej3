@@ -1,0 +1,125 @@
+Patrón de diseño Composite
+
+El patrón Composite es un patrón de diseño estructural que permite tratar de la misma manera a objetos individuales y grupos de objetos.
+
+Es especialmente útil cuando tenemos una estructura jerárquica o en forma de árbol, donde algunos elementos son simples y otros contienen a su vez otros elementos.
+
+Un ejemplo clásico es un sistema de archivos:
+
+Sistema de archivos
+│
+├── documentos.txt       ← Archivo
+├── foto.jpg             ← Archivo
+│
+└── Documentos           ← Carpeta
+    │
+    ├── trabajo.docx     ← Archivo
+    └── informe.pdf      ← Archivo
+
+Un archivo es un elemento individual, mientras que una carpeta es un grupo que puede contener archivos y otras carpetas.
+
+El objetivo de Composite es que tanto el archivo como la carpeta puedan ser tratados mediante una misma interfaz.
+
+¿Cómo funciona Composite?
+
+El patrón utiliza tres elementos principales:
+
+                  <<Component>>
+                  ElementoArchivo
+                       ^
+                       |
+             ---------------------
+             |                   |
+          Archivo             Carpeta
+        (Leaf)              (Composite)
+                               |
+                               |
+                         contiene elementos
+Component
+Define las operaciones comunes que podrán realizar tanto los elementos individuales como los compuestos.
+
+Leaf
+Representa un objeto individual que no contiene otros objetos.
+
+Composite
+Representa un objeto que puede contener otros Component.
+
+La principal ventaja del Composite
+
+Supongamos que tenemos:
+
+Archivo archivo = new Archivo("foto.jpg");
+
+Podemos hacer:
+
+archivo.mostrar();
+
+Pero también podemos hacer:
+
+Carpeta carpeta = new Carpeta("Documentos");
+
+
+carpeta.agregar(archivo);
+
+
+carpeta.mostrar();
+
+El cliente utiliza el mismo método:
+
+mostrar()
+
+sin importar si está trabajando con:
+
+Un archivo.
+Una carpeta.
+Una carpeta que contiene otras carpetas.
+
+Esto es justamente lo que busca el patrón Composite:
+
+Tratar objetos individuales y composiciones de objetos de manera uniforme.
+
+¿Cuándo utilizar Composite?
+
+Es recomendable utilizar este patrón cuando:
+
+Tenemos una estructura jerárquica.
+Los objetos forman un árbol.
+Existen objetos individuales y grupos de objetos.
+Queremos tratar ambos de manera uniforme.
+Tenemos estructuras recursivas.
+
+Algunos ejemplos habituales son:
+
+Sistemas de archivos.
+Menús y submenús.
+Interfaces gráficas.
+Organizaciones empresariales.
+Estructuras XML/HTML.
+Árboles de categorías.
+Composiciones de productos.
+Escenas de videojuegos.
+Ventajas
+
+1. Simplifica el código cliente
+
+El cliente trabaja con una única interfaz:
+
+Elemento elemento;
+
+sin preocuparse si es un archivo o una carpeta.
+
+2. Facilita estructuras recursivas
+
+Una carpeta puede contener otra carpeta, que puede contener otra carpeta, etc.
+
+3. Facilita agregar nuevos tipos
+
+Podemos crear nuevos tipos de elementos que implementen Elemento sin modificar el código existente.
+
+4. Permite trabajar uniformemente
+
+Podemos llamar:
+
+elemento.mostrar();
+
+tanto para un objeto individual como para una composición.

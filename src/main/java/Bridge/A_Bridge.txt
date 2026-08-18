@@ -1,0 +1,134 @@
+
+Patrón de diseño Bridge
+
+El patrón Bridge (Puente) es un patrón de diseño estructural cuyo objetivo es separar una abstracción de su implementación, de manera que ambas puedan evolucionar de forma independiente.
+
+Es especialmente útil cuando tenemos dos dimensiones que pueden variar independientemente.
+
+Por ejemplo, imaginemos un sistema de notificaciones:
+
+Podemos tener diferentes tipos de notificación: Alerta, Recordatorio, Mensaje.
+Podemos utilizar diferentes medios de envío: Email, SMS, WhatsApp.
+
+Sin Bridge, podríamos terminar creando muchas clases:
+ - AlertaEmail
+ - AlertaSMS
+ - AlertaWhatsApp
+
+ - RecordatorioEmail
+ - RecordatorioSMS
+ - RecordatorioWhatsApp
+
+ - MensajeEmail
+ - MensajeSMS
+ - MensajeWhatsApp
+
+Si agregamos un nuevo tipo de notificación o un nuevo medio de envío, la cantidad de clases aumenta rápidamente.
+
+Bridge separa estas dos dimensiones.
+
+       ABSTRACCIÓN                  IMPLEMENTACIÓN
+            |                              |
+     Tipo de mensaje                  Medio de envío
+            |                              |
+      -------------                 ---------------
+      |     |     |                 |      |      |
+    Alerta Record. Mensaje         Email   SMS  WhatsApp
+
+La abstracción mantiene una referencia a la implementación y delega en ella las operaciones correspondientes.
+
+¿Qué problema evita?
+
+Sin Bridge podríamos terminar con una estructura como esta:
+
+                  Notificaciones
+                       |
+        --------------------------------
+        |              |               |
+      Alerta       Recordatorio      Promoción
+        |              |               |
+    ---------      ---------       ---------
+    |   |   |      |   |   |       |   |   |
+  Email SMS WA   Email SMS WA    Email SMS WA
+
+Tenemos 3 × 3 = 9 clases.
+
+Si agregamos un cuarto tipo de notificación:
+
+4 × 3 = 12 clases
+
+Y si agregamos otro canal:
+
+4 × 4 = 16 clases
+
+Con Bridge, en cambio, tenemos:
+
+Tipos de notificación:
+    Alerta
+    Recordatorio
+    Promoción
+
+
+Canales:
+    Email
+    SMS
+    WhatsApp
+
+Solo necesitamos:
+
+3 + 3 = 6 clases concretas, y podemos combinarlas libremente.
+
+¿Cómo funciona el patrón?
+
+El funcionamiento puede resumirse en cuatro pasos:
+
+1. Se separan las dos dimensiones
+
+En nuestro ejemplo:
+
+Abstracción:
+
+Alerta
+Recordatorio
+Promoción
+
+Implementación:
+
+Email
+SMS
+WhatsApp
+2. Se crea una interfaz para la implementación
+public interface CanalEnvio {
+
+
+    void enviar(String mensaje);
+
+
+}
+3. La abstracción mantiene una referencia a esa interfaz
+protected CanalEnvio canalEnvio;
+4. La abstracción delega el trabajo
+canalEnvio.enviar(mensaje);
+
+Así podemos cambiar la implementación sin modificar la abstracción.
+
+Diagrama UML simplificado
+                    <<abstract>>
+                   Notificacion
+                    + enviar()
+                         |
+            ---------------------------
+            |                         |
+         Alerta                 Recordatorio
+            |                         |
+            | contiene                | contiene
+            |                         |
+            +----------+--------------+
+                       |
+                       v
+                  <<interface>>
+                   CanalEnvio
+                       ^
+             --------- | ---------
+             |         |         |
+           Email      SMS     WhatsApp
