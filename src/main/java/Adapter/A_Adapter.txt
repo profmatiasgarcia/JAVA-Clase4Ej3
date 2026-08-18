@@ -1,0 +1,130 @@
+
+Patrón de Diseño Adapter
+
+El patrón de diseño Adapter es un patrón estructural que permite que dos clases con interfaces incompatibles puedan trabajar juntas.
+
+Su principal objetivo es actuar como un adaptador o traductor entre dos interfaces diferentes, permitiendo reutilizar una clase existente sin necesidad de modificar su código.
+
+¿Qué problema resuelve?
+
+Supongamos que nuestro sistema espera trabajar con una interfaz determinada:
+
+public interface Pago {
+
+
+    void procesarPago(double monto);
+
+
+}
+
+Sin embargo, tenemos una clase externa que queremos reutilizar:
+
+public class SistemaPagoExterno {
+
+
+    public void realizarTransaccion(double importe) {
+
+
+        // Procesar pago
+
+
+    }
+
+
+}
+
+Existe una incompatibilidad:
+
+Nuestro sistema espera el método procesarPago().
+La clase externa proporciona realizarTransaccion().
+
+Aunque ambas clases tienen una funcionalidad similar, sus interfaces son diferentes, por lo que no podemos utilizarlas directamente.
+
+El patrón Adapter permite solucionar este problema creando una clase intermedia que traduzca una interfaz en otra.
+
+¿Cómo funciona?
+
+El Adapter implementa la interfaz que espera nuestro sistema y, internamente, utiliza la clase que queremos adaptar.
+
+       Cliente
+          |
+          | utiliza
+          v
+     Interfaz Pago
+          ^
+          |
+       Adapter
+          |
+          | utiliza
+          v
+SistemaPagoExterno
+
+Cuando el cliente solicita:
+
+pago.procesarPago(10000);
+
+el Adapter transforma esa llamada en:
+
+sistemaExterno.realizarTransaccion(10000);
+
+De esta manera, el cliente no necesita conocer los detalles de la clase externa.
+
+Una analogía de la vida real
+
+Un ejemplo sencillo es un adaptador eléctrico.
+
+Imaginemos que tenemos un dispositivo con un enchufe de un determinado formato, pero el tomacorriente tiene otro formato.
+
+No necesitamos modificar el dispositivo ni cambiar el tomacorriente.
+
+Utilizamos un adaptador.
+
+¿Cuándo utilizar Adapter?
+
+Es conveniente utilizar este patrón cuando:
+
+Tenemos una clase existente que queremos reutilizar.
+La clase existente tiene una interfaz incompatible con nuestro sistema.
+No podemos modificar la clase original.
+Estamos integrando una biblioteca o API externa.
+Queremos mantener nuestro código desacoplado de una implementación concreta.
+Necesitamos adaptar diferentes implementaciones a una interfaz común.
+
+Un caso muy habitual es la integración de servicios externos.
+
+Ventajas
+
+El patrón Adapter presenta varias ventajas:
+
+Reutilización: permite utilizar clases existentes sin modificarlas.
+Desacoplamiento: el cliente depende de una interfaz y no de la implementación concreta.
+Integración: facilita incorporar bibliotecas y sistemas externos.
+Mantenimiento: los cambios relacionados con la adaptación quedan concentrados en el Adapter.
+Flexibilidad: permite trabajar con diferentes implementaciones mediante una misma interfaz.
+Desventaja principal
+
+La utilización de Adapter agrega una clase intermedia. Si se utilizan demasiados adapters o se diseñan de manera innecesariamente compleja, el sistema puede resultar más difícil de comprender.
+
+Idea fundamental
+
+La idea más importante para recordar es:
+
+Adapter permite que objetos con interfaces incompatibles trabajen juntos.
+
+No modifica necesariamente el objeto original. En cambio, crea una capa de adaptación que traduce la interfaz que el cliente necesita a la interfaz que el objeto existente proporciona.
+
+Por eso, podemos pensar en el patrón Adapter como un traductor entre dos interfaces.
+
+       INTERFAZ A
+           |
+           |  "Quiero utilizar
+           |   este método"
+           v
+        ADAPTER
+           |
+           |  "Yo traduzco
+           |   la llamada"
+           v
+       INTERFAZ B
+
+En definitiva, Adapter es especialmente útil cuando queremos reutilizar una clase existente pero su interfaz no coincide con la que necesita nuestro sistema.

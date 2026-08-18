@@ -1,7 +1,6 @@
-package miFrame;
 /**
  * @author Prof Matias Garcia.
- * <p> Copyright (C) 2017 para <a href = "https://www.profmatiasgarcia.com.ar/"> www.profmatiasgarcia.com.ar </a>
+ * <p> Copyright (C) 2026 para <a href = "https://www.profmatiasgarcia.com.ar/"> www.profmatiasgarcia.com.ar </a>
  * - con licencia GNU GPL3.
  * <p> Este programa es software libre. Puede redistribuirlo y/o modificarlo bajo los términos de la
  * Licencia Pública General de GNU según es publicada por la Free Software Foundation, 
@@ -12,12 +11,12 @@ package miFrame;
  * Debería haber recibido una copia de la Licencia Pública General junto con este programa. 
  * Si no ha sido así ingrese a <a href = "http://www.gnu.org/licenses/"> GNU org </a>
  */
-import javax.swing.*;
+package Adapter;
 
-public class EjemploSwing1 {
-
-	public static void main(String[] args) {
-		JFrame frame = new MiFrame();
-		frame.setVisible(true);
-	}
+/**
+ * interfaz esperada por el sistema
+ * El sistema trabaja con objetos de tipo Pago y espera que tengan el método procesarPago().
+ */
+public interface Pago {
+    void procesarPago(double monto);
 }

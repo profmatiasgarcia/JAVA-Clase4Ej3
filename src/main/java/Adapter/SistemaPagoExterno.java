@@ -1,7 +1,6 @@
-package miFrame;
 /**
  * @author Prof Matias Garcia.
- * <p> Copyright (C) 2017 para <a href = "https://www.profmatiasgarcia.com.ar/"> www.profmatiasgarcia.com.ar </a>
+ * <p> Copyright (C) 2026 para <a href = "https://www.profmatiasgarcia.com.ar/"> www.profmatiasgarcia.com.ar </a>
  * - con licencia GNU GPL3.
  * <p> Este programa es software libre. Puede redistribuirlo y/o modificarlo bajo los términos de la
  * Licencia Pública General de GNU según es publicada por la Free Software Foundation, 
@@ -12,14 +11,20 @@ package miFrame;
  * Debería haber recibido una copia de la Licencia Pública General junto con este programa. 
  * Si no ha sido así ingrese a <a href = "http://www.gnu.org/licenses/"> GNU org </a>
  */
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+package Adapter;
 
-class manejador extends WindowAdapter {
+/**
+ * Clase existente que queremos reutilizar.
+ * Esta clase NO implementa la interfaz Pago. Además, utiliza un método con otro nombre.
+ */
+public class SistemaPagoExterno {
+    /**
+     * Método proporcionado por el sistema externo.
+     * Observemos que se llama realizarTransaccion() y no procesarPago().
+     */
+    public void realizarTransaccion(double importe) {
 
-    @Override
-    public void windowClosing(WindowEvent e) {
-        System.out.println("Saliendo");
-        System.exit(0);
-    }
+        System.out.println("Procesando pago externo por $" + importe);
+
+    }  
 }

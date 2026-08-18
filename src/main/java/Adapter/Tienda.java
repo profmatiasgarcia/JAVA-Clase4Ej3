@@ -1,7 +1,6 @@
-package eventos;
 /**
  * @author Prof Matias Garcia.
- * <p> Copyright (C) 2017 para <a href = "https://www.profmatiasgarcia.com.ar/"> www.profmatiasgarcia.com.ar </a>
+ * <p> Copyright (C) 2026 para <a href = "https://www.profmatiasgarcia.com.ar/"> www.profmatiasgarcia.com.ar </a>
  * - con licencia GNU GPL3.
  * <p> Este programa es software libre. Puede redistribuirlo y/o modificarlo bajo los términos de la
  * Licencia Pública General de GNU según es publicada por la Free Software Foundation, 
@@ -12,19 +11,26 @@ package eventos;
  * Debería haber recibido una copia de la Licencia Pública General junto con este programa. 
  * Si no ha sido así ingrese a <a href = "http://www.gnu.org/licenses/"> GNU org </a>
  */
-import javax.swing.*;
-import java.awt.event.*;
+package Adapter;
 
-public class EventoSaludo implements ActionListener {
+/**
+ * Clase que utiliza el servicio de pago.
+ * Esta clase solamente conoce la interfaz Pago.
+ * No necesita saber que detras existen diferentes sisemas de pago, como el externo.
+ */
+public class Tienda {
 
-    private JTextField cuadroTexto;
+    /**
+     * Procesa un pago utilizando cualquier objeto que implemente la interfaz Pago.
+     */
+    public void realizarCompra(Pago pago, double monto) {
 
-    public EventoSaludo(JTextField cuadroTexto) {
-        this.cuadroTexto = cuadroTexto;
-    }
+        System.out.println("Iniciando compra...");
 
-    public void actionPerformed(ActionEvent e) {
-        JOptionPane.showMessageDialog(null, "¡Hola, " + cuadroTexto.getText() + "!");
+        pago.procesarPago(monto);
+
+        System.out.println("Compra finalizada.");
+
     }
 
 }
